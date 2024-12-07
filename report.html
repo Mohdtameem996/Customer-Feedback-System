@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Customer Feedback System - Feedback Report</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            <a href="#" class="logo">FeedbackSys</a>
+            <ul class="nav-links">
+                <li><a href="home.html">Home</a></li>
+                <li><a href="feedback.html">Give Feedback</a></li>
+                <li><a href="listfeedbacks.html" class="active">All Feedbacks</a></li>
+                <li><a href="register.html">Register</a></li>
+                <li><a href="login.html">Login</a></li>
+                <li><a href="report.html">Report</a></li>
+                <li><a href="contactus.html">Contact Us</a></li>
+                <li><a href="aboutus.html">About Us</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section class="feedback-list">
+        <h2>All Feedbacks</h2>
+        <table class="feedback-table">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Rating</th>
+                    <th>Comments</th>
+                    <th>Date Submitted</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Amit</td>
+                    <td>Amit@gmail.com</td>
+                    <td>5</td>
+                    <td>Excellent service!</td>
+                    <td>2024-12-01</td>
+                </tr>
+                <tr>
+                    <td>Ashish</td>
+                    <td>Ashish@gmail.com</td>
+                    <td>4</td>
+                    <td>Very good, but there's room for improvement.</td>
+                    <td>2024-12-02</td>
+                </tr>
+                <tr>
+                    <td>Ajit</td>
+                    <td>Ajit@gmail.com</td>
+                    <td>3</td>
+                    <td>Average experience.</td>
+                    <td>2024-12-03</td>
+                </tr>
+                <tr>
+                    <td>Satnam</td>
+                    <td>Satnam@gmail.com</td>
+                    <td>2</td>
+                    <td>Not satisfied with the service.</td>
+                    <td>2024-12-04</td>
+                </tr>
+                <tr>
+                    <td>Harjeet</td>
+                    <td>Harjeet@gmail.com</td>
+                    <td>1</td>
+                    <td>Very poor experience.</td>
+                    <td>2024-12-05</td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+
+    <section class="feedback-report">
+        <h2>Feedback Report</h2>
+        <canvas id="feedbackChart" width="400" height="200"></canvas>
+    </section>
+
+    <footer>
+        <p>&copy; 2024 FeedbackSys. All rights reserved.</p>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Feedback data
+            const feedbacks = [
+                { name: 'Amit', email: 'Amit@gmail.com', rating: 5, comments: 'Excellent service!', date: '2024-12-01' },
+                { name: 'Ashish', email: 'Ashish@gmail.com', rating: 4, comments: 'Very good, but there\'s room for improvement.', date: '2024-12-02' },
+                { name: 'Ajit', email: 'Ajit@gmail.com', rating: 3, comments: 'Average experience.', date: '2024-12-03' },
+                { name: 'Satnam', email: 'Satnam@gmail.com', rating: 2, comments: 'Not satisfied with the service.', date: '2024-12-04' },
+                { name: 'Harjeet', email: 'Harjeet@gmail.com', rating: 1, comments: 'Very poor experience.', date: '2024-12-05' }
+            ];
+
+            // Populate feedback table
+            const feedbackTableBody = document.querySelector('.feedback-table tbody');
+            feedbacks.forEach(feedback => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${feedback.name}</td>
+                    <td>${feedback.email}</td>
+                    <td>${feedback.rating}</td>
+                    <td>${feedback.comments}</td>
+                    <td>${feedback.date}</td>
+                `;
+                feedbackTableBody.appendChild(row);
+            });
+
+            // Generate feedback report chart
+            const ctx = document.getElementById('feedbackChart').getContext('2d');
+            const ratings = feedbacks.map(feedback => feedback.rating);
+            const ratingCounts = [0, 0, 0, 0, 0]; // [1-star, 2-star, 3-star, 4-star, 5-star]
+
+            ratings.forEach(rating => {
+                ratingCounts[rating - 1]++;
+            });
+
+            const feedbackChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['1 Star', '2 Stars', '3 Stars', '4 Stars', '5 Stars'],
+                    datasets: [{
+                        label: '# of Ratings',
+                        data: ratingCounts,
+                        backgroundColor: [
+                            'rgba(255, 99, 132, 0.2)',
+                            'rgba(54, 162, 235, 0.2)',
+                            'rgba(255, 206, 86, 0.2)',
+                            'rgba(75, 192, 192, 0.2)',
+                            'rgba(153, 102, 255, 0.2)'
+                        ],
+                        borderColor: [
+                            'rgba(255, 99, 132, 1)',
+                            'rgba(54, 162, 235, 1)',
+                            'rgba(255, 206, 86, 1)',
+                            'rgba(75, 192, 192, 1)',
+                            'rgba(153, 102, 255, 1)'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>
